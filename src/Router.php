@@ -824,7 +824,7 @@ class Router
 
         // hacky solution to handle middleware catching all middleware with pattern (.*?)
         $routesToRun = array_filter($routeToHandle, function ($route) use ($uri) {
-            return $route['route']['pattern'] === $uri || $route['route']['pattern'] === '/.*';
+            return $route['route']['pattern'] === $uri || $route['route']['pattern'] === '/.*' || implode('/', $route['params'] ?? []) === ltrim($uri, '/');
         });
 
         if (empty($routesToRun)) {
