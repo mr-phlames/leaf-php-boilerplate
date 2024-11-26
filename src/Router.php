@@ -390,6 +390,8 @@ class Router
      *
      * @param string|array $route The route to redirect to
      * @param array|null $data Data to pass to the next route
+     * 
+     * @deprecated Use `Leaf\Http\Response::redirect` instead
      */
     public static function push($route, ?array $data = null)
     {
