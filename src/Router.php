@@ -356,10 +356,14 @@ class Router
         static::match('GET|HEAD', $pattern, "$controller@index");
         static::post($pattern, "$controller@store");
         static::match('GET|HEAD', "$pattern/create", "$controller@create");
-        static::match('POST|DELETE', "$pattern/{id}/delete", "$controller@destroy");
-        static::match('POST|PUT|PATCH', "$pattern/{id}/edit", "$controller@update");
+        static::match('DELETE', "$pattern/{id}", "$controller@destroy");
+        static::match('PUT|PATCH', "$pattern/{id}", "$controller@update");
         static::match('GET|HEAD', "$pattern/{id}/edit", "$controller@edit");
         static::match('GET|HEAD', "$pattern/{id}", "$controller@show");
+
+        // still keeping DELETE and PUT|PATCH so earlier versions of leaf apps don't break
+        static::match('POST|DELETE', "$pattern/{id}/delete", "$controller@destroy");
+        static::match('POST|PUT|PATCH', "$pattern/{id}/edit", "$controller@update");
     }
 
     /**
