@@ -378,15 +378,29 @@ class Router
      * - `/posts/{id}/delete` - POST | DELETE - Controller@destroy
      *
      * @param string $pattern The base route to use eg: /post
-     * @param string $controller to handle route eg: PostController
+     * @param array|string $controller to handle route eg: PostController
      */
-    public static function apiResource(string $pattern, string $controller)
+    public static function apiResource(string $pattern, $controller)
     {
+        if (is_array($controller)) {
+            $controllerToCall = $controller[0];
+
+            $controller[0] = function () use ($pattern, $controllerToCall) {
+                static::apiResource('/', $controllerToCall);
+            };
+
+            return static::group($pattern, $controller);
+        }
+
         static::match('GET|HEAD', $pattern, "$controller@index");
         static::post($pattern, "$controller@store");
+        static::match('GET|HEAD', "$pattern/{id}", "$controller@show");
+        static::match('DELETE', "$pattern/{id}", "$controller@destroy");
+        static::match('PUT|PATCH', "$pattern/{id}", "$controller@update");
+
+        // still keeping DELETE and PUT|PATCH so earlier versions of leaf apps don't break
         static::match('POST|DELETE', "$pattern/{id}/delete", "$controller@destroy");
         static::match('POST|PUT|PATCH', "$pattern/{id}/edit", "$controller@update");
-        static::match('GET|HEAD', "$pattern/{id}", "$controller@show");
     }
 
     /**
