@@ -865,7 +865,7 @@ class Router
                 $handler,
                 $params
             );
-        } else if (stripos($handler, '@') !== false) {
+        } elseif (stripos($handler, '@') !== false) {
             list($controller, $method) = explode('@', $handler);
 
             if (!class_exists($controller)) {
@@ -883,7 +883,7 @@ class Router
                 if (forward_static_call_array([$controller, $method], $params) === false)
                 ;
             }
-        } else if (strpos($handler, ':') !== false) {
+        } elseif (strpos($handler, ':') !== false) {
             $middlewareParams = [];
 
             $middlewareParams = explode(':', $handler);
