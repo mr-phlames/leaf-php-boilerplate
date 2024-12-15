@@ -881,7 +881,7 @@ class Router
             if (call_user_func_array([new $controller(), $method], $params) === false) {
                 // Try to call the method as a non-static method. (the if does nothing, only avoids the notice)
                 if (forward_static_call_array([$controller, $method], $params) === false)
-                    ;
+                ;
             }
         } else if (strpos($handler, ':') !== false) {
             $middlewareParams = [];
