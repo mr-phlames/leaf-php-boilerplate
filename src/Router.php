@@ -865,7 +865,7 @@ class Router
                 $handler,
                 $params
             );
-        } elseif (stripos($handler, '@') !== false) {
+        } else if (stripos($handler, '@') !== false) {
             list($controller, $method) = explode('@', $handler);
 
             if (!class_exists($controller)) {
@@ -881,8 +881,15 @@ class Router
             if (call_user_func_array([new $controller(), $method], $params) === false) {
                 // Try to call the method as a non-static method. (the if does nothing, only avoids the notice)
                 if (forward_static_call_array([$controller, $method], $params) === false)
-                ;
+                    ;
             }
+        } else if (strpos($handler, ':') !== false) {
+            $middlewareParams = [];
+
+            $middlewareParams = explode(':', $handler);
+            $middleware = array_shift($middlewareParams);
+
+            static::$namedMiddleware[$middleware](explode('|', $middlewareParams[0] ?? ''));
         }
     }
 }
