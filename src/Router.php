@@ -737,11 +737,20 @@ class Router
                         return trim(substr($match[0][0], 0, $matches[$index + 1][0][1] - $match[0][1]), '/');
                     }
 
+                    // Temporary fix for optional parameters
+                    if (($match[0][1] ?? 1) === -1 && ($match[0][0] ?? null) === '') {
+                        return;
+                    }
+
                     // We have no following parameters: return the whole lot
                     return isset($match[0][0]) ? trim($match[0][0], '/') : null;
                 }, $matches, array_keys($matches));
 
                 $paramsWithSlash = array_filter($params, function ($param) {
+                    if (!$param) {
+                        return false;
+                    }
+
                     return strpos($param, '/') !== false;
                 });
 
@@ -860,6 +869,12 @@ class Router
 
     private static function invoke($handler, $params = [])
     {
+        if (!empty($params)) {
+            $params = array_filter($params, function ($param) {
+                return $param !== null;
+            });
+        }
+
         if (is_callable($handler)) {
             call_user_func_array(
                 $handler,
