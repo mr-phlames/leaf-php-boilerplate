@@ -203,6 +203,8 @@ class App extends Router
             \trigger_error('CSRF module not found! Run `leaf install csrf` or `composer require leafs/csrf` to install the CSRF module. This is required to configure CSRF.');
         }
 
+        Config::set('session', true);
+
         if (!Anchor\CSRF::token()) {
             Anchor\CSRF::config($options);
             Anchor\CSRF::init();
