@@ -179,6 +179,15 @@ class App extends Router
     }
 
     /**
+     * Attach a view engine to Leaf
+     * @param mixed $view The view engine to attach
+     */
+    public function attachView($view)
+    {
+        Config::attachView($view);
+    }
+
+    /**
      * Evade CORS errors
      *
      * @param $options Config for cors
