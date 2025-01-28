@@ -326,6 +326,19 @@ class Router
     }
 
     /**
+     * Add a route that renders a view
+     * 
+     * @param string $pattern The route pattern/path to match
+     * @param string $view The view to render
+     */
+    public static function view(string $pattern, string $view)
+    {
+        static::get($pattern, function () use ($view) {
+            return response()->view($view);
+        });
+    }
+
+    /**
      * Create a resource route for using controllers.
      *
      * This creates a routes that implement CRUD functionality in a controller
