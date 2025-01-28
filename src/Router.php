@@ -327,7 +327,7 @@ class Router
 
     /**
      * Add a route that renders a view
-     * 
+     *
      * @param string $pattern The route pattern/path to match
      * @param string $view The view to render
      */
