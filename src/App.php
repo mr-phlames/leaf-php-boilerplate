@@ -206,7 +206,7 @@ class App extends Router
     public function vite($options = [
         'assets' => '',
         'build' => '',
-        'hotFile' => 'hot'
+        'hotFile' => 'hot',
     ])
     {
         \Leaf\Vite::config('assets', $options['assets']);
