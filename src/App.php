@@ -182,14 +182,13 @@ class App extends Router
      * Attach a view engine to Leaf
      * @param mixed $view The view engine to attach
      */
-    public function attachView($view)
+    public function attachView($view, $name = null)
     {
-        Config::attachView($view);
+        Config::attachView($view, $name);
     }
 
     /**
      * Evade CORS errors
-     *
      * @param $options Config for cors
      */
     public function cors($options = [])
@@ -199,6 +198,20 @@ class App extends Router
         } else {
             \trigger_error('Cors module not found! Run `leaf install cors` or `composer require leafs/cors` to install the CORS module. This is required to configure CORS.');
         }
+    }
+
+    /**
+     * Tune vite to work without Leaf MVC
+     */
+    public function vite($options = [
+        'assets' => '',
+        'build' => '',
+        'hotFile' => 'hot'
+    ])
+    {
+        \Leaf\Vite::config('assets', $options['assets']);
+        \Leaf\Vite::config('build', $options['build']);
+        \Leaf\Vite::config('hotFile', $options['hotFile']);
     }
 
     /**
@@ -347,7 +360,7 @@ class App extends Router
     }
 
     /**
-     * Run mode-specific code. Unlike script, this runs immedietly.
+     * Run mode-specific code. Unlike script, this runs immediately.
      *
      * @param string $mode The mode to run code in
      * @param callable $callback The code to run in selected mode.
