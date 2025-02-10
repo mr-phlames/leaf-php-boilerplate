@@ -10,7 +10,7 @@ namespace Leaf;
  * The easiest way to build simple but powerful apps and APIs quickly.
  *
  * @author Michael Darko <mickdd22@gmail.com>
- * @copyright 2019-2024 Michael Darko
+ * @copyright 2019-2025 Michael Darko
  * @link https://leafphp.dev
  * @license MIT
  * @package Leaf
@@ -203,15 +203,18 @@ class App extends Router
     /**
      * Tune vite to work without Leaf MVC
      */
-    public function vite($options = [
-        'assets' => '',
-        'build' => '',
-        'hotFile' => 'hot',
-    ])
-    {
-        \Leaf\Vite::config('assets', $options['assets']);
-        \Leaf\Vite::config('build', $options['build']);
-        \Leaf\Vite::config('hotFile', $options['hotFile']);
+    public function vite(
+        $options = [
+            'assets' => '',
+            'build' => '',
+            'hotFile' => 'hot',
+        ]
+    ) {
+        if (class_exists('Leaf\Vite')) {
+            \Leaf\Vite::config('assets', $options['assets']);
+            \Leaf\Vite::config('build', $options['build']);
+            \Leaf\Vite::config('hotFile', $options['hotFile']);
+        }
     }
 
     /**
