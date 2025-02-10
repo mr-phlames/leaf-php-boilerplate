@@ -62,6 +62,23 @@ class Config
         $class = new $className();
         $diIndex = $name ?? static::getDiIndex($class);
 
+        if (!class_exists('Leaf\Core') && !static::getStatic('views.path') && is_dir('views')) {
+            app()->vite();
+            app()->config([
+                'views.path' => 'views',
+                'views.cache' => 'cache'
+            ]);
+
+            if ($className === 'Leaf\Blade') {
+                $class->configure([
+                    'views' => 'views',
+                    'cache' => 'cache'
+                ]);
+            } else if ($className === 'Leaf\BareUI') {
+                $class->config('path', './views');
+            }
+        }
+
         static::set("views.$diIndex", $class);
     }
 
