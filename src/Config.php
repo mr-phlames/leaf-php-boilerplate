@@ -66,15 +66,15 @@ class Config
             app()->vite();
             app()->config([
                 'views.path' => 'views',
-                'views.cache' => 'cache'
+                'views.cache' => 'cache',
             ]);
 
             if ($className === 'Leaf\Blade') {
                 $class->configure([
                     'views' => 'views',
-                    'cache' => 'cache'
+                    'cache' => 'cache',
                 ]);
-            } else if ($className === 'Leaf\BareUI') {
+            } elseif ($className === 'Leaf\BareUI') {
                 $class->config('path', './views');
             }
         }
